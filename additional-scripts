@@ -1,0 +1,325 @@
+{% assign variant = product.variants %}
+{% for line in line_items %}
+{% if variant.inventory_quantity <= 0 and variant.available and variant.inventory_management != '' %}
+<p style="color:#ff0000">This item is currently out of stock. It will take up to 3 weeks to ship.</p>
+{% endif %}
+{% endfor %}
+{% if note != '' %}
+<div class="content-box" style="margin-bottom: 1em;">
+            <div class="content-box__row">
+                <h2 class="os-step__title">Rätt produktgaranti</h2>
+                <p>Vi ger garanti för att levererad produkt passar. Vi kommer att kontrollera att din beställning är korrekt för din bil. Om det inte är en optimal beställning hör vi av oss och erbjuder att korrigera din beställning.</p>
+                <p><b>Ditt meddelande</b>: {{ note }}</p>
+<p>
+
+
+
+</p>
+            </div>
+        </div>
+{% endif %}
+
+<!-- Sandbloms el -->
+
+{% for line in line_items %}
+{% if line.variant.title contains 'Stockholm' or line.variant.title contains 'Jönköping' %}
+<div class="content-box" style="margin-bottom: 1em;">
+<div class="content-box__row">
+<h2 class="os-step__title">Installation av laddbox</h2>
+<p>Du har valt att din laddbox ska installeras av vår behöriga installatör Sandbloms EL. Installatören kontaktar dig inom kort för att planera arbetet.
+<p>Om du har frågor eller information kring installationen kan du kontakta installatören eller ännu bättre använda ett formulär där du kan ladda upp video, bilder och skriva förklarande texter i förberedelse för installationen.</p>
+<p>Sandblom El<br />
+070-666 23 35<br />
+jakob.sandblom@sandblomel.se</p>
+<a class="abtn" href="https://evconnect.se/pages/installation-sandblomel?ordernumber={{ order_number }}&firstname={{ customer.first_name }}&lastname={{ customer.last_name }}&address={{ shipping_address.address1 }}&zip={{ shipping_address.zip }}&city={{ shipping_address.city }}&email={{ customer.email }}&tel={{ shipping_address.phone }}" style="text-decoration:underline;" target="_blank">Öppna kontaktformulär</a>
+</div>
+</div>
+{% endif %}
+{% endfor %}
+
+{% if shipping_method.title == 'D Avhämtning, Lidingö' %}
+<div class="content-box" style="margin-bottom: 1em;">
+<div class="content-box__row">
+<h2 class="os-step__title">Avhämtning, Lidingö</h2>
+<p>Vi kommer att packa och göra din beställning redo för avhämtning på adressen, <b>tas i receptionen på <b>Stockholmsvägen 38, 181 32 Lidingö</b>. Så fort din beställning finns klar för avhämtning skickar vi dig en leveransbekräftelse via e-post/sms med mer detaljer. </p> 
+</div>
+</div>
+{% endif %}
+
+{% if shipping_method.title == 'A PostNord Brev' %}
+<div class="content-box" style="margin-bottom: 1em;">
+<div class="content-box__row">
+<h2 class="os-step__title">PostNord Brev</h2>
+<p>Din beställning kommer att skickas som brev med PostNord. Om det vadderade brevet inte ryms i ditt postfack får du istället en avi för att hämta det hos närmsta PostNordombud i {{ shipping_address.city }}. </p> 
+</div>
+</div>
+{% endif %}
+
+{% if shipping_method.title == 'B Schenker Privatpaket, 2-4 dagar (hämtas hos ombud)' %}
+<div class="content-box" style="margin-bottom: 1em;">
+<div class="content-box__row">
+<h2 class="os-step__title">Schenker, 2-4 dagar (hämtas hos ombud)</h2>
+<p>Din beställning skickas med Schenker till ditt närmsta ombud i <b>{{ shipping_address.city }}</b>. Ombudet kommer att <b>skicka en avi</b> via sms till telefonnummer <b>{{ shipping_address.phone }}</b> eller ett e-postmeddelande till adressen <b>{{ customer.email }}</b> när din beställning finns att hämta.
+</p>
+
+<p>
+<ul class="tOrder">
+{% for line_item in order.line_items %}
+  {% if line_item.fulfillment.tracking_number %}
+  <li>
+    <p>Du kan följa din leverans med kolli-id, <b>{{ line_item.fulfillment.tracking_number }}</b> för att se status på din försändelse.</p>
+    <a class="abtn" href="https://www.dbschenker.com/se-sv/om-oss/kundservice/spara-och-sok?language=sv&reference_type=0&reference_number={{ line_item.fulfillment.tracking_number }}" target="_blank">Spåra din leverans</a>
+  </li>
+  {% endif %}
+{% endfor %}
+</ul>
+</p>
+
+</div>
+</div>
+{% endif %}
+
+{% if shipping_method.title == 'C Schenker Leverans, 2-4 dagar (till arbetsplats)' %}
+<div class="content-box" style="margin-bottom: 1em;">
+<div class="content-box__row">
+<h2 class="os-step__title">Schenker Leverans, 2-4 dagar (till arbetsplats)</h2>
+<p>Din beställning körs ut med Schenker till arbetsplatsen <b>{{ shipping_address.company }}</b> på adressen {{ shipping_address.address1 }} mellan kl 07:00-16:00.
+</p>
+
+<p>
+<ul class="tOrder">
+{% for line_item in order.line_items %}
+  {% if line_item.fulfillment.tracking_number %}
+  <li>
+    <p>Du kan följa din leverans med kolli-id, <b>{{ line_item.fulfillment.tracking_number }}</b> för att se status på din försändelse.</p>
+    <a class="abtn" href="https://www.dbschenker.com/se-sv/om-oss/kundservice/spara-och-sok?language=sv&reference_type=0&reference_number={{ line_item.fulfillment.tracking_number }}" target="_blank">Spåra din leverans</a>
+  </li>
+  {% endif %}
+{% endfor %}
+</ul>
+</p>
+
+</div>
+</div>
+{% endif %}
+
+{% if shipping_method.title == 'E UPS Home Delivery' %}
+<div class="content-box" style="margin-bottom: 1em;">
+<div class="content-box__row">
+<h2 class="os-step__title">UPS Home Delivery (4-5 working days)</h2>
+<p>Your order is shipped by UPS to {{ shipping_address.street }} in {{ shipping_address.city }}.
+</p>
+
+{% for line_item in order.line_items %}
+{% if line_item.fulfillment.tracking_number %}
+<p>
+You can track your shippment with tracking number, <b>{{ line_item.fulfillment.tracking_number }}</b> to see the delivery status.
+</p>
+<a class="abtn" href="https://track.aftership.com/ups/{{ line_item.fulfillment.tracking_number }}" target="_blank">Track shippment</a>
+{% endif %}
+{% endfor %}
+</div>
+</div>
+{% endif %}
+
+{% if order.financial_status == 'paid' and order.fulfillment_status == 'fulfilled' %}
+
+<div class="content-box" style="margin-bottom: 1em;">
+    <div class="content-box__row">
+        <h2 class="os-step__title">Kvitto</h2>
+        <p>Här är ett kvitto för din beställning som kan användas för garanti och redovisning.</p>
+        <a class="abtn" target='_blank' href='http://evconnect.se/apps/download-pdf/6902d5c84d257e30a16d/{{ order_id | times: 6713 }}/{{ order_number }}.pdf'>Ladda ner kvitto</a>
+    </div>
+</div>
+{% endif %}
+
+{% for transaction in order.transactions %}
+  {% if transaction.gateway == 'Delbetalning, 4 månader'  %}
+  <div class="content-box" style="margin-bottom: 1em;">
+  <div class="content-box__row">
+  <h2 class="os-step__title">Delbetalning, 4 månader</h2>
+    <p>Vi delar upp din betalning. Totalbeloppet delas upp på fyra månader. En delfaktura skickas i slutet av varje månad via e-post genom vår faktureringstjänst. 30 kr fakturaavgift tillkommer per faktura.</p>
+  </div>
+  </div>
+  {% endif %}
+{% endfor %}
+
+{% for transaction in order.transactions %}
+  {% if transaction.gateway == 'Faktura 15 dagar'  %}
+  <div class="content-box" style="margin-bottom: 1em;">
+  <div class="content-box__row">
+  <h2 class="os-step__title">Din faktura</h2>
+    <p>Din faktura skickas i ett separat e-postmeddelande så fort din order är levererad.</p>
+    
+  </div>
+  </div>
+  {% endif %}
+{% endfor %}
+
+  <!-- manual -->
+{% for line in line_items %}
+  {% for tag in line.product.tags %}
+    {% if tag contains 'adapter' or tag contains 'sl' or tag contains 'pl' %}
+    <div class="content-box" style="margin-bottom: 1em;">
+      <div class="content-box__row">
+      <h2 class="os-step__title">Manual</h2>
+      <p>Du har köpt en produkt som har en användarmanual. Klicka på knappen för att komma till manualen.</p>
+    <a class="abtn" href="https://evconnect.se/pages/{{line.sku }}/" style="text-decoration:underline;" target="_blank">{{line.title }}</a>
+      </div>
+    </div>
+    {% endif %}
+  {% endfor %}
+{% endfor %}
+
+<!--  <div class="content-box" style="margin-bottom: 1em;">
+  <div class="content-box__row">
+  <h2 class="os-step__title">Vi bryr oss om din köpupplevelse </h2>
+    <div style="margin:0 auto;" class="pxFormGenerator" id="mHfsp0kg_swcdimrmKZN6g"></div>
+
+<div class="powr-survey find-us" id="3af3c2d8_1488896368"></div>
+  </div>
+  </div> -->
+
+<div class="content-box" style="margin-bottom: 1em; background: #FABC4B;">
+  <div class="content-box__row">
+    <center>
+  <img src="{{ 'soldags-logo.png' | asset_img_url: '300x' }}">
+  <br /><br />
+  <h2 class="os-step__title">Är du är intresserad av att producera din egen el med solkraft på ditt tak?</h2> 
+    <p>Att installera solpaneler på ett bra tak, är bland det bästa du själv kan göra för miljön. Soldags tar hand om hela projektet åt dig, du behöver inte göra någonting. Ett riktigt bra tak ger mer än 10% riskfri avkastning per år.</p>
+    <a class="abtn black" href="https://evconnect.se/pages/soldags?firstname={{ customer.first_name }}&lastname={{ customer.last_name }}&address={{ shipping_address.address1 }}&zip={{ shipping_address.zip }}&city={{ shipping_address.city }}&email={{ customer.email }}&tel={{ shipping_address.phone }}" style="text-decoration:underline;" target="_blank">Få kostnadsfri information och analys av ditt tak</a>
+  
+  </center>  
+  </div>
+  </div>
+
+<style>
+a.black {
+  background-color: #000000;
+  width: 57%;
+  margin: 20px 80% 10px 20%;
+}
+a.black:hover {
+  background-color: #000000;
+}
+.content-box { margin-top: 20px; } .section { padding-top: 4px; } .os-header { margin: 0 0 30px 0; }
+.survey-page .survey-page-header .survey-title-container {
+    display: none!important;
+}
+.smcx-modal-header>.smcx-modal-title {
+    display: none!important;
+}
+.survey-page .survey-page-body {
+    padding: 0 30px!important;
+}
+.survey-page .page-subtitle {
+    padding: 0 0 30px 0!important;
+}
+.survey-page.survey-page-white .survey-footer {
+    padding-top: 10px!important;
+    padding-bottom: 0!important;
+}
+.smcx-widget-dark .smcx-widget-footer>.smcx-branding {
+    background-image: none!important;
+}
+.smcx-widget-dark .smcx-widget-footer>.smcx-branding>.smcx-powered-by {
+    display: none!important;
+}
+.survey-page .survey-footer {
+    margin-bottom: 0!important;
+}
+.tracking-info {
+    display: none!important;
+}
+.abtn {
+    background: #7DD21F;
+    padding: 12px;
+    color: #ffffff;
+    text-decoration: none!important;
+    border-radius: 3px;
+    position: inherit;
+    float: left;
+    margin: 10px 0 0 0;
+}
+.abtn:hover {
+    color: #ffffff;
+    background: #63a618;
+}
+.survey-page .survey-page-body {
+    padding: 0 30px 0 30px;
+}
+.survey-page .page-subtitle {
+    padding: 0 0 10px 0;
+}
+.survey-page .survey-footer {
+    margin-bottom: 0;
+}
+.survey-page.survey-page-white .survey-footer {
+    padding-bottom: 0;
+}
+.survey-page .survey-submit-actions {
+    margin: 30px 0 10px 0;
+}
+.smcx-modal {
+    background: #A2A2A2;
+}
+.survey-page .survey-page-header .survey-title-container {
+    background-color: #7DD21F;
+}
+.survey-page .survey-title {
+    background-color: #7DD21F;
+}
+.powrMark {
+    display: none!important;
+}
+.formBuilder {
+    padding: 0 !important;
+max-width: none !important;
+}
+.formBuilder.formElementsModule.inlineLabels.enter_ani_none.none {
+    padding: 0!important;
+}
+#appView {
+    margin: 1px !important;
+}
+#appView .powrMark {
+    display: none!important;
+}
+.tOrder li {
+    display: none;
+}
+.tOrder li:first-child {
+    display: block;
+}
+.jotform-form {
+    padding: 0!important;
+}
+li#cid_1 {
+    display: none!important;
+}
+.form-line {
+    padding: 0!important;
+}
+.form-buttons-wrapper {
+    margin-left: 0!important;
+}
+</style>
+
+<!-- Google Code for evc-checkout-thank-you Conversion Page -->
+<script type="text/javascript">
+/* <![CDATA[ */
+var google_conversion_id = 927230473;
+var google_conversion_language = "en";
+var google_conversion_format = "3";
+var google_conversion_color = "ffffff";
+var google_conversion_label = "zoV8CKOZj2UQidSRugM";
+var google_remarketing_only = false;
+/* ]]> */
+</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
+</script>
+<noscript>
+<div style="display:inline;">
+<img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/927230473/?label=zoV8CKOZj2UQidSRugM&amp;guid=ON&amp;script=0"/>
+</div>
+</noscript>
