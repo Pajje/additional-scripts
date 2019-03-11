@@ -48,12 +48,6 @@ jakob.sandblom@sandblomel.se</p>
 
 {% if shipping_method.title == 'A PostNord Brev' %}
 <div class="content-box" style="margin-bottom: 1em;">
-<div class="content-box__row">
-<h2 class="os-step__title">PostNord Brev</h2>
-<p>Din beställning kommer att skickas som brev med PostNord. Om det vadderade brevet inte ryms i ditt postfack får du istället en avi för att hämta det hos närmsta PostNordombud i {{ shipping_address.city }}. </p> 
-</div>
-</div>
-{% endif %} -->
 
 {% if shipping_method.title == 'A Schenker Privatpaket, 2-4 dagar (hämtas hos ombud)' %}
 <div class="content-box" style="margin-bottom: 1em;">
