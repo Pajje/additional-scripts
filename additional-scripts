@@ -53,6 +53,30 @@ jakob.sandblom@sandblomel.se</p>
 <p>Din beställning kommer att skickas som brev med PostNord. Om det vadderade brevet inte ryms i ditt postfack får du istället en avi för att hämta det hos närmsta PostNordombud i {{ shipping_address.city }}. </p> 
 </div>
 </div>
+{% endif %} -->
+
+{% if shipping_method.title == 'A Schenker Privatpaket, 2-4 dagar (hämtas hos ombud)' %}
+<div class="content-box" style="margin-bottom: 1em;">
+<div class="content-box__row">
+<h2 class="os-step__title">Schenker, 2-4 dagar (hämtas hos ombud)</h2>
+<p>Din beställning skickas med Schenker till ditt närmsta ombud i <b>{{ shipping_address.city }}</b>. Ombudet kommer att <b>skicka en avi</b> via sms till telefonnummer <b>{{ shipping_address.phone }}</b> eller ett e-postmeddelande till adressen <b>{{ customer.email }}</b> när din beställning finns att hämta.
+</p>
+
+<p>
+<ul class="tOrder">
+{% for line_item in order.line_items %}
+  {% if line_item.fulfillment.tracking_number %}
+  <li>
+    <p>Du kan följa din leverans med kolli-id, <b>{{ line_item.fulfillment.tracking_number }}</b> för att se status på din försändelse.</p>
+    <a class="abtn" href="https://www.dbschenker.com/se-sv/om-oss/kundservice/spara-och-sok?language=sv&reference_type=0&reference_number={{ line_item.fulfillment.tracking_number }}" target="_blank">Spåra din leverans</a>
+  </li>
+  {% endif %}
+{% endfor %}
+</ul>
+</p>
+
+</div>
+</div>
 {% endif %}
 
 {% if shipping_method.title == 'B Schenker Privatpaket, 2-4 dagar (hämtas hos ombud)' %}
