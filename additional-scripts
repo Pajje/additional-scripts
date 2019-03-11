@@ -46,8 +46,6 @@ jakob.sandblom@sandblomel.se</p>
 </div>
 {% endif %}
 
-{% if shipping_method.title == 'A PostNord Brev' %}
-<div class="content-box" style="margin-bottom: 1em;">
 
 {% if shipping_method.title == 'A Schenker Privatpaket, 2-4 dagar (hämtas hos ombud)' %}
 <div class="content-box" style="margin-bottom: 1em;">
